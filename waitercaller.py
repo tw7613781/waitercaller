@@ -22,7 +22,6 @@ def home():
 @login_required
 def account():
     tables = DB.get_tables(current_user.get_id())
-    print(tables)
     return render_template('account.html',tables=tables)
 
 @app.route('/dashboard')
@@ -78,7 +77,6 @@ def account_createtable():
 @login_required
 def account_deletetable():
     tableid = request.args.get('tableid')
-    print(tableid)
     DB.delete_table(tableid)
     return redirect(url_for('account'))
 
