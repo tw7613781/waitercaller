@@ -1,3 +1,4 @@
+# coding:utf-8
 import hashlib
 import os
 import base64
@@ -12,3 +13,4 @@ class PasswordHelper:
 
     def validate_password(self, plain, salt, expected):
         return self.get_hash(plain+salt) == expected
+
