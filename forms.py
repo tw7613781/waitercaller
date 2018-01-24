@@ -14,3 +14,10 @@ class RegistrationForm(FlaskForm):
     password2 = PasswordField('password2',
                               validators = [validators.InputRequired(), validators.EqualTo('password', message='Passwords must match')])
     submit = SubmitField('submit',[validators.InputRequired()])
+
+class LoginForm(FlaskForm):
+    loginemail = EmailField('email',
+                       validators = [validators.InputRequired(), validators.Email()])
+    loginpassword = PasswordField('password',
+                             validators = [validators.InputRequired(message='Password field is required')])
+    submit = SubmitField('submit',[validators.InputRequired()])
