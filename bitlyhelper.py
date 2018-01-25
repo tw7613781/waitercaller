@@ -11,7 +11,7 @@ class BitlyHelper:
         try:
             url = ROOT_URL + SHORTEN.format(TOKEN, longurl)
             # python3's library urllib, return a HTTP response object,
-            response = urllib.request.urlopen(url).read()
+            response = urllib.request.urlopen(url).read().decode('utf8')
             jr = json.loads(response)
             return jr['data']['url']
         except Exception as e:
