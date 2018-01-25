@@ -1,8 +1,6 @@
 # coding:utf-8
 from flask_wtf import FlaskForm
-from wtforms import PasswordField
-from wtforms import SubmitField
-from wtforms import validators
+from wtforms import PasswordField, SubmitField, validators, StringField
 from wtforms.fields.html5 import EmailField
 
 class RegistrationForm(FlaskForm):
@@ -21,3 +19,7 @@ class LoginForm(FlaskForm):
     loginpassword = PasswordField('password',
                              validators = [validators.InputRequired(message='Password field is required')])
     submit = SubmitField('submit',[validators.InputRequired()])
+
+class CreateTableForm(FlaskForm):
+    tablenumber = StringField('tablenumber',validators=[validators.InputRequired()])
+    submit = SubmitField('submit', [validators.InputRequired()])

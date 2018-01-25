@@ -8,7 +8,7 @@ from passwordhelper import PasswordHelper
 from bitlyhelper import BitlyHelper
 import config
 import datetime
-from forms import RegistrationForm, LoginForm
+from forms import RegistrationForm, LoginForm, CreateTableForm
 
 DB = DBHelper()
 PH = PasswordHelper()
@@ -27,7 +27,7 @@ def home():
 @login_required
 def account():
     tables = DB.get_tables(current_user.get_id())
-    return render_template('account.html',tables=tables)
+    return render_template('account.html', createtableform=CreateTableForm(), tables=tables)
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -69,13 +69,13 @@ def register():
 @app.route('/account/createtable', methods=['POST'])
 @login_required
 def account_createtable():
-    # customer input table id
-    tablename = request.form.get('tablenumber')
-    # unique globals table id
-    tableid = DB.add_table(tablename, current_user.get_id())
-    new_url = BH.shorten_url(config.base_url+'newrequest/'+tableid)
-    DB.update_table(tableid, new_url)
-    return redirect(url_for('account'))
+    form = CreateTableForm(request.form)
+    if form.validate():
+        tableid = DB.add_table(form.tablenumber.data, current_user.get_id())
+        new_url = BH.shorten_url(config.base_url + 'newrequest/' + tableid)
+        DB.update_table(tableid, new_url)
+        return redirect(url_for('account'))
+    return render_template("account.html", createtableform=form, tables=DB.get_tables(current_user.get_id()))
 
 @app.route('/account/deletetable')
 @login_required
