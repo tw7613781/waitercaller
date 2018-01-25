@@ -21,7 +21,7 @@ login_manager = LoginManager(app)
 @app.route('/')
 def home():
     registrationform = RegistrationForm()
-    return render_template('home.html', registrationform=registrationform)
+    return render_template('home.html', loginform=LoginForm(), registrationform=registrationform)
 
 @app.route('/account')
 @login_required
@@ -58,13 +58,13 @@ def register():
     if form.validate():
         if DB.get_user(form.email.data):
             form.email.errors.append('Email address already registered')
-            return render_template('home.html', registrationform = form)
+            return render_template('home.html', loginform=LoginForm(), registrationform = form)
         salt = PH.get_salt()
         hashed = PH.get_hash(form.password2.data + salt)
         DB.add_user(form.email.data, salt, hashed)
-        return render_template('home.html',registrationform=form,
+        return render_template('home.html', loginform=LoginForm(), registrationform=form,
                                onloadmessage='Registration successful. Please log in.')
-    return render_template('home.html', registrationform=form)
+    return render_template('home.html', loginform=LoginForm(), registrationform=form)
 
 @app.route('/account/createtable', methods=['POST'])
 @login_required
