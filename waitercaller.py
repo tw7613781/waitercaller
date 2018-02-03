@@ -88,6 +88,7 @@ def account_deletetable():
 
 @app.route('/newrequest/<tid>')
 def new_request(tid):
+    print('auto run....')
     if DB.add_request(tid, datetime.datetime.now()):
         return 'Your request has been logged and a waiter will be with you shortly'
     else:
